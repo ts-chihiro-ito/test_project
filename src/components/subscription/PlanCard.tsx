@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { SubscriptionPlan } from "@/types/subscription";
 import {
   Card,
@@ -16,13 +17,14 @@ interface PlanCardProps {
   onSelectPlan: () => void;
 }
 
-export function PlanCard({ plan, onSelectPlan }: PlanCardProps) {
+function PlanCard({ plan, onSelectPlan }: PlanCardProps) {
   return (
     <Card
       className={cn(
-        "flex flex-col",
+        "flex flex-col focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
         plan.isPopular && "border-purple-500"
       )}
+      tabIndex={0}
     >
       <CardHeader>
         <div className="flex justify-between items-center">
@@ -76,3 +78,5 @@ export function PlanCard({ plan, onSelectPlan }: PlanCardProps) {
     </Card>
   );
 }
+
+export default memo(PlanCard);

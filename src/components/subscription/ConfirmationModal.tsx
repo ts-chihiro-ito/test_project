@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { SubscriptionPlan } from "@/types/subscription";
 import {
   Dialog,
@@ -17,7 +18,7 @@ interface ConfirmationModalProps {
   onConfirm: () => void;
 }
 
-export function ConfirmationModal({
+function ConfirmationModal({
   plan,
   isOpen,
   onOpenChange,
@@ -62,3 +63,5 @@ export function ConfirmationModal({
     </Dialog>
   );
 }
+
+export default memo(ConfirmationModal);

@@ -2,8 +2,8 @@
 
 import { SUBSCRIPTION_PLANS } from "@/data/plans";
 import { useSubscription } from "@/hooks/useSubscription";
-import { PlanCard } from "./PlanCard";
-import { ConfirmationModal } from "./ConfirmationModal";
+import PlanCard from "./PlanCard";
+import ConfirmationModal from "./ConfirmationModal";
 
 export function PlanSelector() {
   const {

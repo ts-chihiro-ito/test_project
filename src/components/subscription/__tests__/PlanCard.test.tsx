@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { PlanCard } from '../PlanCard';
+import PlanCard from '../PlanCard';
 import { SubscriptionPlan } from '@/types/subscription';
 
 const mockPlan: SubscriptionPlan = {
@@ -21,7 +21,7 @@ const mockPlan: SubscriptionPlan = {
 
 describe('PlanCard', () => {
   it('renders plan details correctly', () => {
-    render(<PlanCard plan={mockPlan} isSelected={false} onSelect={() => {}} />);
+    render(<PlanCard plan={mockPlan} onSelectPlan={() => {}} />);
 
     // Check for display name
     expect(screen.getByText('テストプラン')).toBeInTheDocument();
@@ -41,13 +41,13 @@ describe('PlanCard', () => {
   });
 
   it('displays popular badge when isPopular is true', () => {
-    render(<PlanCard plan={mockPlan} isSelected={false} onSelect={() => {}} />);
+    render(<PlanCard plan={mockPlan} onSelectPlan={() => {}} />);
     expect(screen.getByText('人気')).toBeInTheDocument();
   });
 
   it('does not display popular badge when isPopular is false', () => {
     const planWithoutPopular = { ...mockPlan, isPopular: false };
-    render(<PlanCard plan={planWithoutPopular} isSelected={false} onSelect={() => {}} />);
+    render(<PlanCard plan={planWithoutPopular} onSelectPlan={() => {}} />);
     expect(screen.queryByText('人気')).not.toBeInTheDocument();
   });
 

@@ -1,4 +1,6 @@
-export function TermsAndConditions() {
+import { memo } from 'react';
+
+function TermsAndConditions() {
   return (
     <div className="mt-16 border-t pt-8">
       <h2 className="text-2xl font-bold text-center mb-8">
@@ -33,3 +35,5 @@ export function TermsAndConditions() {
     </div>
   );
 }
+
+export default memo(TermsAndConditions);

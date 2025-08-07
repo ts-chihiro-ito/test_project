@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ConfirmationModal } from '../ConfirmationModal';
+import ConfirmationModal from '../ConfirmationModal';
 import { SubscriptionPlan } from '@/types/subscription';
 
 const mockPlan: SubscriptionPlan = {

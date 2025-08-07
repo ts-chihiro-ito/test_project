@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { SUBSCRIPTION_PLANS } from "@/data/plans";
 
 const CheckIcon = () => (
@@ -24,7 +25,7 @@ const MinusIcon = () => (
     </svg>
   );
 
-export function PlanComparison() {
+function PlanComparison() {
   const allFeatures = SUBSCRIPTION_PLANS.reduce((acc, plan) => {
     plan.features.forEach((feature) => {
       if (!acc.find((f) => f.id === feature.id)) {
@@ -73,3 +74,5 @@ export function PlanComparison() {
     </div>
   );
 }
+
+export default memo(PlanComparison);

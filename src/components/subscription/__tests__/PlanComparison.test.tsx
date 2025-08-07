@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { PlanComparison } from '../PlanComparison';
+import PlanComparison from '../PlanComparison';
 import { SUBSCRIPTION_PLANS } from '@/data/plans';
 
 describe('PlanComparison', () => {

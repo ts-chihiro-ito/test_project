@@ -1,6 +1,6 @@
 import { PlanSelector } from "@/components/subscription/PlanSelector";
-import { PlanComparison } from "@/components/subscription/PlanComparison";
-import { TermsAndConditions } from "@/components/subscription/TermsAndConditions";
+import PlanComparison from "@/components/subscription/PlanComparison";
+import TermsAndConditions from "@/components/subscription/TermsAndConditions";
 
 export default function SubscriptionPage() {
   return (
