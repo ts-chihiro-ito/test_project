@@ -6,8 +6,8 @@ export function useSubscription() {
 
   const handleSelectPlan = (plan: SubscriptionPlan) => {
     setSelectedPlan(plan);
-    // In a real app, you might show a confirmation modal here.
-    console.log('Selected Plan:', plan.displayName);
+    // In a real app, you would typically trigger further actions here,
+    // such as showing a confirmation modal or proceeding to checkout.
   };
 
   return {
