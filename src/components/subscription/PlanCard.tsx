@@ -13,17 +13,15 @@ import { cn } from "@/lib/utils";
 
 interface PlanCardProps {
   plan: SubscriptionPlan;
-  isSelected: boolean;
-  onSelect: () => void;
+  onSelectPlan: () => void;
 }
 
-export function PlanCard({ plan, isSelected, onSelect }: PlanCardProps) {
+export function PlanCard({ plan, onSelectPlan }: PlanCardProps) {
   return (
     <Card
       className={cn(
         "flex flex-col",
-        isSelected && "border-2 border-primary shadow-lg",
-        plan.isPopular && !isSelected && "border-purple-500"
+        plan.isPopular && "border-purple-500"
       )}
     >
       <CardHeader>
@@ -71,8 +69,8 @@ export function PlanCard({ plan, isSelected, onSelect }: PlanCardProps) {
         )}
       </CardContent>
       <CardFooter>
-        <Button onClick={onSelect} className="w-full" variant={isSelected ? "default" : "outline"}>
-          {isSelected ? "選択中" : "選択する"}
+        <Button onClick={onSelectPlan} className="w-full">
+          選択する
         </Button>
       </CardFooter>
     </Card>

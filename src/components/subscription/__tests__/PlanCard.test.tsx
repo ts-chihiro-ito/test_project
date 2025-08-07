@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { PlanCard } from '../PlanCard';
 import { SubscriptionPlan } from '@/types/subscription';
 
@@ -51,8 +51,10 @@ describe('PlanCard', () => {
     expect(screen.queryByText('人気')).not.toBeInTheDocument();
   });
 
-  it('shows "選択中" when isSelected is true', () => {
-    render(<PlanCard plan={mockPlan} isSelected={true} onSelect={() => {}} />);
-    expect(screen.getByRole('button', { name: '選択中' })).toBeInTheDocument();
+  it('calls onSelectPlan when the button is clicked', () => {
+    const handleSelect = jest.fn();
+    render(<PlanCard plan={mockPlan} onSelectPlan={handleSelect} />);
+    fireEvent.click(screen.getByRole('button', { name: '選択する' }));
+    expect(handleSelect).toHaveBeenCalledTimes(1);
   });
 });

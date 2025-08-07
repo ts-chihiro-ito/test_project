@@ -5,59 +5,68 @@ import SubscriptionPage from '../page';
 describe('SubscriptionPage Integration Test', () => {
   // Helper function to get a specific plan card by its name
   const getPlanCard = (planName: string) => {
-    // Find the heading with the plan name. We specify it's a level 3 heading (h3)
-    // which is unique to the PlanCard component in this page's context.
     const heading = screen.getByRole('heading', { name: planName, level: 3 });
-
-    // The card is the closest ancestor div with these specific classes.
-    // This is a bit brittle, but helps distinguish it from other divs.
     const card = heading.closest('div.rounded-lg.border');
-
     if (!card) {
       throw new Error(`Could not find parent card for plan: ${planName}`);
     }
     return card;
   };
 
-  it('should allow a user to select a plan', () => {
+  it('should open a confirmation modal with the correct plan details when selecting a plan', async () => {
     render(<SubscriptionPage />);
 
-    // Find the 'ツーベースプラン' card using the helper
-    const twoBasePlanCard = getPlanCard('ツーベースプラン');
-
-    // Find and click the select button within that specific card
-    const selectButton = within(twoBasePlanCard).getByRole('button', { name: '選択する' });
+    // Find and click the 'ツーベースプラン' card's select button
+    const planCard = getPlanCard('ツーベースプラン');
+    const selectButton = within(planCard).getByRole('button', { name: '選択する' });
     fireEvent.click(selectButton);
 
-    // After clicking, the button text within that card should change to '選択中'
-    const selectedButton = within(twoBasePlanCard).getByRole('button', { name: '選択中' });
-    expect(selectedButton).toBeInTheDocument();
+    // The modal should now be visible. We find it by its role 'dialog'.
+    const modal = await screen.findByRole('dialog');
+    expect(modal).toBeInTheDocument();
 
-    // Verify that another card (e.g., シングルベースプラン) is not selected
-    const singleBasePlanCard = getPlanCard('シングルベースプラン');
-    expect(within(singleBasePlanCard).getByRole('button', { name: '選択する' })).toBeInTheDocument();
+    // Check that the modal contains the correct information
+    expect(within(modal).getByRole('heading', { name: 'プランの確認' })).toBeInTheDocument();
+    expect(within(modal).getByText('ツーベースプラン')).toBeInTheDocument();
+    expect(within(modal).getByText('¥1,980/月')).toBeInTheDocument();
   });
 
-  it('should change selection when another plan is chosen', () => {
+  it('should close the modal when the cancel button is clicked', async () => {
     render(<SubscriptionPage />);
 
-    // Find and click the button for 'ツーベースプラン'
-    const twoBasePlanCard = getPlanCard('ツーベースプラン');
-    const twoBaseSelectButton = within(twoBasePlanCard).getByRole('button', { name: '選択する' });
-    fireEvent.click(twoBaseSelectButton);
+    // Open the modal first
+    const planCard = getPlanCard('ホームランプラン');
+    const selectButton = within(planCard).getByRole('button', { name: '選択する' });
+    fireEvent.click(selectButton);
 
-    // Verify it's selected
-    expect(within(twoBasePlanCard).getByRole('button', { name: '選択中' })).toBeInTheDocument();
+    // Modal should be open
+    const modal = await screen.findByRole('dialog');
+    expect(modal).toBeInTheDocument();
 
-    // Now, find and click the button for 'スリーベースプラン'
-    const threeBasePlanCard = getPlanCard('スリーベースプラン');
-    const threeBaseSelectButton = within(threeBasePlanCard).getByRole('button', { name: '選択する' });
-    fireEvent.click(threeBaseSelectButton);
+    // Click the cancel button inside the modal
+    const cancelButton = within(modal).getByRole('button', { name: 'キャンセル' });
+    fireEvent.click(cancelButton);
 
-    // Verify the new plan is selected
-    expect(within(threeBasePlanCard).getByRole('button', { name: '選択中' })).toBeInTheDocument();
+    // The modal should now be closed
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
 
-    // Verify the old plan is no longer selected
-    expect(within(twoBasePlanCard).getByRole('button', { name: '選択する' })).toBeInTheDocument();
+  it('should close the modal when the confirm button is clicked', async () => {
+    render(<SubscriptionPage />);
+
+    // Open the modal
+    const planCard = getPlanCard('スリーベースプラン');
+    const selectButton = within(planCard).getByRole('button', { name: '選択する' });
+    fireEvent.click(selectButton);
+
+    const modal = await screen.findByRole('dialog');
+    expect(modal).toBeInTheDocument();
+
+    // Click the confirm button
+    const confirmButton = within(modal).getByRole('button', { name: '同意して進む' });
+    fireEvent.click(confirmButton);
+
+    // The modal should close
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });
