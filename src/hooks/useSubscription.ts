@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SubscriptionPlan } from '@/types/subscription';
+import toast from 'react-hot-toast';
 
 export function useSubscription() {
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null);
@@ -11,8 +12,9 @@ export function useSubscription() {
   };
 
   const handleConfirm = () => {
+    if (!selectedPlan) return;
     // Here you would proceed to the next step, e.g., payment
-    console.log('Plan confirmed:', selectedPlan?.displayName);
+    toast.success(`${selectedPlan.displayName}が確定しました！`);
     setIsModalOpen(false);
   };
 
